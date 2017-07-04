@@ -251,8 +251,8 @@ def apply_threshold(heatmap, threshold):
     # Return thresholded map
     return heatmap
 
-# Function to draw boxes on image, combines boxes that are close together into one box
-def draw_labeled_bboxes(img, labels):
+# Get box array, combines boxes that are close together into one box
+def get_vehicle_boxes(img, labels):
     # Define empty array for boxes of each label
     bboxes = []
     # Define an empty array for all box coordinates that are drawn 
@@ -290,13 +290,18 @@ def draw_labeled_bboxes(img, labels):
               bbox = bboxes[bbox_number]
           # Draw the box on the image
           if (abs(bbox[0][0] - bbox[1][0]) > 70) and (abs(bbox[0][1] - bbox[1][1]) > 70):
-              cv2.rectangle(img, bbox[0], bbox[1], (0,0,255), 6)
               output_boxes.append(bbox)
           bbox_number = bbox_number + 1
     # If there is only one box, draw the box
     elif len(bboxes) == 1:
       if (abs(bboxes[0][0][0] - bboxes[0][1][0]) > 70) and (abs(bboxes[0][0][1] - bboxes[0][1][1]) > 70):
-          cv2.rectangle(img, bboxes[0][0], bboxes[0][1], (0,0,255), 6)
           output_boxes.append(bboxes[0])
-    # Return the image with drawn boxes and the output_boxes array
-    return img, output_boxes
+    return output_boxes
+
+
+# Function to draw boxes on image
+def draw_labeled_bboxes(img, bboxes):
+    box_image = np.copy(img)
+    for bbox in bboxes:
+      cv2.rectangle(box_image, bbox[0], bbox[1], (0,0,255), 6)
+    return box_image
