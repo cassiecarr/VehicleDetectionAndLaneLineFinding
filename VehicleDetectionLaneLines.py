@@ -179,17 +179,17 @@ def process_image(mtx, dist, image):
 	# Intialize all_hot_windows with this frame's hot windows
 	all_hot_windows = hot_windows
 
-	# # Shift previous_array, which holds the last x amount previous frame's hot windows
-	# # add these hot_windows to "all_hot_windows"
-	# buffer_num = np.array(previous_array).shape[0]
-	# for i in range(1, buffer_num):
-	# 	previous_array[buffer_num - i] = previous_array[buffer_num - i - 1]
-	# 	all_hot_windows = all_hot_windows + previous_array[buffer_num - i]
-	# previous_array[0] = hot_windows
+	# Shift previous_array, which holds the last x amount previous frame's hot windows
+	# add these hot_windows to "all_hot_windows"
+	buffer_num = np.array(previous_array).shape[0]
+	for i in range(1, buffer_num):
+		previous_array[buffer_num - i] = previous_array[buffer_num - i - 1]
+		all_hot_windows = all_hot_windows + previous_array[buffer_num - i]
+	previous_array[0] = hot_windows
 	
-	# # Define window image, draw_boxes draws all_hot_windows onto the draw image
-	# window_img = draw_boxes(draw_image, all_hot_windows, color=(0, 0, 255), thick=6)     
-	# # mpimg.imsave((os.path.join("output_images/window_images/", filename)),window_img)               
+	# Define window image, draw_boxes draws all_hot_windows onto the draw image
+	window_img = draw_boxes(draw_image, all_hot_windows, color=(0, 0, 255), thick=6)     
+	# mpimg.imsave((os.path.join("output_images/window_images/", filename)),window_img)               
 
 	# Add heat to each box in box list
 	heat = np.zeros_like(image[:,:,0]).astype(np.float)
@@ -225,20 +225,20 @@ def process_image(mtx, dist, image):
 # Bind the process image and calibration data
 bound_process_image = partial(process_image, mtx, dist)
 
-# Process test images with process image function
-for filename in os.listdir("test_images/"):
-    if filename.endswith(".jpg"): 
-        # Identify the image
-        image = mpimg.imread(os.path.join("test_images/", filename))
-        output = bound_process_image(image)
+# # Process test images with process image function
+# for filename in os.listdir("test_images/"):
+#     if filename.endswith(".jpg"): 
+#         # Identify the image
+#         image = mpimg.imread(os.path.join("test_images/", filename))
+#         output = bound_process_image(image)
 
-        # Save the file as overlay
-        mpimg.imsave((os.path.join("output_images/", filename)),output)
+#         # Save the file as overlay
+#         mpimg.imsave((os.path.join("output_images/", filename)),output)
 
-# # Process video with process image function
-# output = 'output.mp4'
-# clip = VideoFileClip("project_video.mp4")
-# sub_clip = clip.subclip(11, 13)
-# output_clip = clip.fl_image(bound_process_image) 
-# output_clip.write_videofile(output, audio=False)
+# Process video with process image function
+output = 'output.mp4'
+clip = VideoFileClip("project_video.mp4")
+sub_clip = clip.subclip(11, 12)
+output_clip = sub_clip.fl_image(bound_process_image) 
+output_clip.write_videofile(output, audio=False)
 
