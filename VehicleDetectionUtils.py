@@ -303,5 +303,5 @@ def get_vehicle_boxes(img, labels):
 def draw_labeled_bboxes(img, bboxes):
     box_image = np.copy(img)
     for bbox in bboxes:
-      cv2.rectangle(box_image, bbox[0], bbox[1], (0,0,255), 6)
+      cv2.rectangle(box_image, tuple(bbox[0]), tuple(bbox[1]), (0,0,255), 6)
     return box_image
