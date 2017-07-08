@@ -20,11 +20,26 @@ class Cars:
             for i in range(self.car_count, len(boxes)):
                 self.all_cars.append([])
                 self.car_count += 1
-        
+        # for i in range(0, self.car_count):
+        #     if((i < len(boxes)) & (len(self.all_cars[0]) > 0)):
+        #         if(abs(boxes[i][0][0] - self.all_cars[i][0][0][0]) > 50):
+        #             if(i == (len(self.all_cars)-1)):
+        #                 self.all_cars.append([])
+        #                 self.car_count += 1
+    
         for i in range(0, self.car_count):
-            if (i < len(boxes)) & (len(boxes)>0):
+
+            if ((i < len(boxes)) & (len(boxes) > 0)):
+                # if((i < len(self.all_cars)) & (len(self.all_cars[0]) > 0)):
+                #     if (len(self.all_cars[i]) > 0):
+                #         if((abs(boxes[i][0][0] - self.all_cars[i][0][0][0]) > 50)):
+                #             print("*")
+                #             boxes.append(boxes[i])
+                #             continue
+
                 if(len(self.all_cars[i]) < 10):
                     self.all_cars[i].append(boxes[i])
+                
                 else:
                     self.all_cars[i].pop(0)
                     self.all_cars[i].append(boxes[i])

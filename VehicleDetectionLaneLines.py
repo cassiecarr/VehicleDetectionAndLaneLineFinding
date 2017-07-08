@@ -23,6 +23,7 @@ from functools import partial
 # Import Vehicle Detection Functions
 from VehicleDetectionUtils import *
 
+# # **UNCOMMENT WHEN CALIBRATING CAMERA**
 # # Calibrate the camera for finding lane lines functions
 # from CalibrateCamera import *
 # images = glob.glob('test_images/camera_cal/calibration*.jpg')
@@ -30,6 +31,7 @@ from VehicleDetectionUtils import *
 
 # # Save the camera calibration
 # pickle.dump([ret, mtx, dist, rvecs, tvecs], open( "camera_cal.p", "wb" ))
+# # ***
 
 # Load the camera calibration
 ret, mtx, dist, rvecs, tvecs = pickle.load(open( "camera_cal.p", "rb" ))
@@ -48,6 +50,7 @@ hist_feat = False # Histogram features on or off
 hog_feat = True # HOG features on or off
 y_start_stop = [400, 620] # Min and max in y to search in slide_window()
 
+# # **UNCOMMENT WHEN TRAINING DATASET**
 # # Read in cars and notcars
 # cars = []
 # noncars = []
@@ -115,6 +118,7 @@ y_start_stop = [400, 620] # Min and max in y to search in slide_window()
 # # Save the trained model
 # pickle.dump(svc, open( "svc.p", "wb" ))
 # pickle.dump(X_scaler, open( "scaler.p", "wb" ))
+# # ***
 
 # Load the trained model
 svc = pickle.load(open( "svc.p", "rb" ))
@@ -244,6 +248,6 @@ bound_process_image = partial(process_image, mtx, dist)
 output = 'output.mp4'
 clip = VideoFileClip("project_video.mp4")
 sub_clip = clip.subclip(27, 30)
-output_clip = sub_clip.fl_image(bound_process_image) 
+output_clip = clip.fl_image(bound_process_image) 
 output_clip.write_videofile(output, audio=False)
 
