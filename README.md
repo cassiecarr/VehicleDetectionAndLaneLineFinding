@@ -2,7 +2,7 @@
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 [//]: # (Image References)
-[image1]: ./output_images/test4.jpg
+[image1]: ./output_images/test5.jpg
 
 The Project
 ---
@@ -30,7 +30,7 @@ Here is an example of the pipeline output:
 
 Project Files
 ---
-* [VehicleDetectionLaneLines.py](VehicleDetection.py) contains the main pipeline for training the dataset and processing the video to overlay the found vehicle windows and lane boundries.
+* [VehicleDetectionLaneLines.py](VehicleDetectionLaneLines.py) contains the main pipeline for training the dataset and processing the video to overlay the found vehicle windows and lane boundries.
 * [VehicleDetectionUtils.py](VehicleDetectionUtils.py) contains the functions used to extract features from images to train and test the dataset, in addition, functions to determine the windows and search windows for vehicles.
 * [FindLaneLineUtils.py](FindLaneLineUtils.py) contains the functions used to warp the image to an overhead view, find lane line pixels, and determine polynomials that represent the lane line boundries.
 * [Threshold.py](Threshold.py) contains function for thresholding the image for lane line detection.
