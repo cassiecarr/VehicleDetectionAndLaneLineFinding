@@ -11,31 +11,41 @@ class Cars:
 
     def cars_update(self,boxes):
         self.these_cars = boxes
-        
-        print("self.these_cars")
-        print(self.these_cars)
+ 
+        # Remove empty array and reduce car count
+        if(len(self.all_cars) > 0):
+            if (([]) in self.all_cars):
+                self.all_cars.remove([])
+                self.car_count -= 1
 
         # Add empty array for every new car found
         if len(boxes) > self.car_count:
             for i in range(self.car_count, len(boxes)):
                 self.all_cars.append([])
                 self.car_count += 1
-        # for i in range(0, self.car_count):
-        #     if((i < len(boxes)) & (len(self.all_cars[0]) > 0)):
-        #         if(abs(boxes[i][0][0] - self.all_cars[i][0][0][0]) > 50):
-        #             if(i == (len(self.all_cars)-1)):
-        #                 self.all_cars.append([])
-        #                 self.car_count += 1
-    
+        
+        # Loop through all the cars
         for i in range(0, self.car_count):
-
+            
+            # If there are boxes for this car count
             if ((i < len(boxes)) & (len(boxes) > 0)):
-                # if((i < len(self.all_cars)) & (len(self.all_cars[0]) > 0)):
-                #     if (len(self.all_cars[i]) > 0):
-                #         if((abs(boxes[i][0][0] - self.all_cars[i][0][0][0]) > 50)):
-                #             print("*")
-                #             boxes.append(boxes[i])
-                #             continue
+
+                # Check if boxes are close to all_cars array at car count
+                if((i < len(self.all_cars)) & (len(self.all_cars[0]) > 0)):
+                    if(len(self.all_cars[i]) > 0):
+                        if((abs(boxes[i][0][0] - self.all_cars[i][0][0][0]) > 50)):
+                            # If boxes are far from all_cars array at car count:
+                            # Add to new array if last arry in all_cars
+                            # If not last array, remove current item at all_cars and then check next car
+                            if(i == (len(self.all_cars)-1)):
+                                self.all_cars.append([])
+                                self.car_count += 1
+                                self.all_cars[i+1].append(boxes[i])
+                                continue
+                            else:
+                                self.all_cars[i].pop(0)
+                                boxes.append(boxes[i])
+                                continue
 
                 if(len(self.all_cars[i]) < 10):
                     self.all_cars[i].append(boxes[i])
@@ -49,12 +59,9 @@ class Cars:
 
         self.car_average_boxes = []
         for i in range(0, len(self.all_cars)):
-            if(len(self.all_cars[i]) > 1):
+            if(len(self.all_cars[i]) > 3):
                 avg_boxes = np.mean(np.array(self.all_cars[i]), axis=0).astype(int)
                 self.car_average_boxes.append(avg_boxes)
-
-        print("self.all_cars")
-        print(self.all_cars)
 
 
 class Object:
@@ -90,8 +97,6 @@ class Object:
         self.poly_right_average = np.mean(np.array(self.all_poly_right), axis=0)
 
         self.cars.cars_update(boxes)
-        print("self.car_average_boxes")
-        print(self.cars.car_average_boxes)
 
     def get_boxes(self):
 

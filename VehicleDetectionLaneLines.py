@@ -192,10 +192,9 @@ def process_image(mtx, dist, image):
 	heat = add_heat(heat, all_hot_windows)
 
 	# Apply a threshold to the heatmap
-	# threshold = (np.array(all_hot_windows).shape[0]) // 20 + 1
-	threshold = 1
-	# print("threshold")
-	# print(threshold)
+	threshold = (np.array(all_hot_windows).shape[0]) // 10 + 1
+	# threshold = 1
+
 	heat = apply_threshold(heat, threshold)
 
 	# Visualize the heatmap when displaying    
@@ -234,6 +233,7 @@ def process_image(mtx, dist, image):
 # Bind the process image and calibration data
 bound_process_image = partial(process_image, mtx, dist)
 
+# # **UNCOMMENT WHEN TESTING ON OUTPUT IMAGES**
 # # Process test images with process image function
 # for filename in os.listdir("test_images/"):
 #     if filename.endswith(".jpg"): 
@@ -243,11 +243,12 @@ bound_process_image = partial(process_image, mtx, dist)
 
 #         # Save the file as overlay
 #         mpimg.imsave((os.path.join("output_images/", filename)),output)
+# # ***
 
 # Process video with process image function
 output = 'output.mp4'
 clip = VideoFileClip("project_video.mp4")
-sub_clip = clip.subclip(27, 30)
+sub_clip = clip.subclip(18, 21)
 output_clip = clip.fl_image(bound_process_image) 
 output_clip.write_videofile(output, audio=False)
 

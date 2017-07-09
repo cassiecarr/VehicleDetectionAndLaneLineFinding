@@ -267,6 +267,7 @@ def get_vehicle_boxes(img, labels):
         # Define a bounding box based on min/max x and y
         bbox = ((np.min(nonzerox), np.min(nonzeroy)), (np.max(nonzerox), np.max(nonzeroy)))
         bboxes.append(bbox)
+
     # If there is more than one box, search around boxes and combine them if they are closer
     # than the buffer zone 
     if len(bboxes) > 1:
@@ -285,16 +286,18 @@ def get_vehicle_boxes(img, labels):
           buffer_zone = 100
           if (left_distance < buffer_zone) or (right_distance < buffer_zone):
               bbox = ((min(box1_x1, box2_x1), min(box1_y1, box2_y1)), (max(box1_x2, box2_x2), max(box1_y2, box2_y2)))
-              bbox_number = bbox_number + 1
+              bbox_number += 1
           else:
               bbox = bboxes[bbox_number]
           # Draw the box on the image
-          if (abs(bbox[0][0] - bbox[1][0]) > 70) and (abs(bbox[0][1] - bbox[1][1]) > 70):
+          if (abs(bbox[0][0] - bbox[1][0]) > 50) and (abs(bbox[0][1] - bbox[1][1]) > 50):
               output_boxes.append(bbox)
-          bbox_number = bbox_number + 1
+              if(bbox_number == (len(bboxes) - 2)):
+                output_boxes.append(bboxes[bbox_number+1])
+          bbox_number += 1
     # If there is only one box, draw the box
     elif len(bboxes) == 1:
-      if (abs(bboxes[0][0][0] - bboxes[0][1][0]) > 70) and (abs(bboxes[0][0][1] - bboxes[0][1][1]) > 70):
+      if (abs(bboxes[0][0][0] - bboxes[0][1][0]) > 50) and (abs(bboxes[0][0][1] - bboxes[0][1][1]) > 50):
           output_boxes.append(bboxes[0])
     return output_boxes
 
